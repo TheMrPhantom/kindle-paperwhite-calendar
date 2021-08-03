@@ -2,7 +2,7 @@ from flask import Flask
 from flask import jsonify
 from flask_cors import CORS
 import appointmentManager
-
+import config
 
 app = Flask(__name__)
 CORS(app)
@@ -68,12 +68,12 @@ def html():
    output="<html>"
    if refresh_remaining>0:
       refresh_remaining-=1
-      output+='''
-      <meta http-equiv="refresh" content="5; URL=http://192.168.2.102:5000/html">
+      output+=f'''
+      <meta http-equiv="refresh" content="5; URL=http://{config.ip}:9004/html">
       '''
    else:
-      output+='''
-      <meta http-equiv="refresh" content="5; URL=http://192.168.2.102:5000/black">
+      output+=f'''
+      <meta http-equiv="refresh" content="5; URL=http://{config.ip}:9004/black">
       '''
       refresh_remaining=refreshs
    output+=format_appointment(aps[0],style="background-color:darkblue;color:white")
@@ -134,9 +134,9 @@ def format_appointment(ap,style=""):
 
 @app.route('/black')
 def black_screen():
-   content='''
+   content=f'''
    <html style="background-color:black">
-   <meta http-equiv="refresh" content="1; URL=http://192.168.2.102:5000/white">
+   <meta http-equiv="refresh" content="1; URL=http://{config.ip}:9004/white">
 
    </html>
    '''
@@ -145,9 +145,9 @@ def black_screen():
 
 @app.route('/white')
 def white_screen():
-   content='''
+   content=f'''
    <html style="background-color:white">
-   <meta http-equiv="refresh" content="1; URL=http://192.168.2.102:5000/html">
+   <meta http-equiv="refresh" content="1; URL=http://{config.ip}:9004/html">
 
    </html>
    '''
