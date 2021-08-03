@@ -6,8 +6,9 @@ import config
 
 app = Flask(__name__)
 CORS(app)
-refreshs=5
+refreshs=60*5
 refresh_remaining=refreshs
+refresh_every_sec=60
 
 @app.route('/nextAppointment')
 def getNextAppointment():
@@ -69,11 +70,11 @@ def html():
    if refresh_remaining>0:
       refresh_remaining-=1
       output+=f'''
-      <meta http-equiv="refresh" content="5; URL=http://{config.ip}:9004/html">
+      <meta http-equiv="refresh" content="{refresh_every_sec}; URL=http://{config.ip}:9004/html">
       '''
    else:
       output+=f'''
-      <meta http-equiv="refresh" content="5; URL=http://{config.ip}:9004/black">
+      <meta http-equiv="refresh" content="{refresh_every_sec}; URL=http://{config.ip}:9004/black">
       '''
       refresh_remaining=refreshs
    output+=format_appointment(aps[0],style="background-color:darkblue;color:white")
