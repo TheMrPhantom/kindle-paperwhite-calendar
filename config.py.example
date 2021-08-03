@@ -1,0 +1,4 @@
+from os import environ
+email = environ.get("EMAIL") if environ.get("EMAIL") else "mail@domain.com"
+pw = environ.get("PASSWORD") if environ.get("PASSWORD") else "supersecurepassword"
+summertime = environ.get("SUMMERTIME") if environ.get("SUMMERTIME") else False
