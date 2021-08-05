@@ -75,8 +75,7 @@ class Appointment:
         duration = duration[2:]
         hour = duration.find("H")
         minute = duration.find("M")
-
-        if duration == "D":
+        if duration == "D" or duration.startswith("DT"):
             # is day long event
             self.duration = 24
         else:
@@ -107,6 +106,11 @@ class Appointment:
         realDate = datetime.datetime.strptime(tempDate, '%Y-%m-%d')
 
         return realDate.strftime("%A %d. %B %Y")
+    
+    def fancyShortDate(self):
+        longDate=self.fancyDate()
+        idx=longDate.rfind(" ")
+        return longDate[:idx]
 
     def parseTime(self, datetime):
         datetime = str(datetime)
@@ -169,6 +173,9 @@ class Calendar_Manager:
             print(a.subject, a.calendar_name)
         '''
         return output
+    
+    def current_date(self):
+        return datetime.datetime.now().strftime("%A %d. %B %Y")
 
 
 class Routine:

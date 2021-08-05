@@ -66,6 +66,7 @@ def getNextAppointments():
 def html():
    global refresh_remaining
    aps=appointmentManager.get_Appointments()
+   fancy_date=appointmentManager.cal.current_date()
    output="<html>"
    if refresh_remaining>0:
       refresh_remaining-=1
@@ -77,10 +78,18 @@ def html():
       <meta http-equiv="refresh" content="{refresh_every_sec}; URL=http://{config.ip}:9004/black">
       '''
       refresh_remaining=refreshs
+   
+   output+=f"<h2>{fancy_date}</h2>"
    output+=format_appointment(aps[0],style="background-color:darkblue;color:white")
-   output+="</br>"
+
+   last_day=""
+   
    for idx,a in enumerate(aps[1:]):
-      output+=format_appointment(a,style="background-color: beige;" if idx %2 == 0 else "background-color: grey;")
+      if last_day!=a.fancyDate():
+         output+="<hr>"
+         output+="<h4 style='margin-top:0px'>"+a.fancyShortDate()+"</h4>"
+         last_day=a.fancyDate()
+      output+=format_appointment(a,style="background-color: beige;" if idx %2 == 0 else "background-color: lightgrey;")
    output+="</html>"
    return output
 
@@ -103,9 +112,6 @@ def format_appointment(ap,style=""):
          {time}
          </div>
          <div>
-         {date}
-         </div>
-         <div>
          {place}
          </div>
       </div>
@@ -122,9 +128,6 @@ def format_appointment(ap,style=""):
          </div>
          <div>
          {time}
-         </div>
-         <div>
-         {date}
          </div>
       </div>
       </center>
