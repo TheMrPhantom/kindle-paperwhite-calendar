@@ -80,16 +80,20 @@ def html():
       refresh_remaining=refreshs
    
    output+=f"<h2>{fancy_date}</h2>"
-   output+=format_appointment(aps[0],style="background-color:darkblue;color:white")
+   #output+=format_appointment(aps[0],style="background-color:darkblue;color:white")
 
    last_day=""
    
-   for idx,a in enumerate(aps[1:]):
+   for idx,a in enumerate(aps):
       if last_day!=a.fancyDate():
          output+="<hr>"
-         output+="<h4 style='margin-top:0px'>"+a.fancyShortDate()+"</h4>"
+         if a.fancyShortDate() not in fancy_date:
+            output+="<h4 style='margin-top:0px'>"+a.fancyShortDate()+"</h4>"
          last_day=a.fancyDate()
-      output+=format_appointment(a,style="background-color: beige;" if idx %2 == 0 else "background-color: lightgrey;")
+      if idx == 0:
+         output+=format_appointment(a,style="background-color:darkblue;color:white")
+      else:
+         output+=format_appointment(a,style="background-color: beige;" if idx %2 == 0 else "background-color: lightgrey;")
    output+="</html>"
    return output
 

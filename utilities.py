@@ -175,7 +175,13 @@ class Calendar_Manager:
         return output
     
     def current_date(self):
-        return datetime.datetime.now().strftime("%A %d. %B %Y")
+        summertimeOffset = 1
+
+        if not config.summertime:
+            summertimeOffset += 1
+
+        dstOffset = datetime.timedelta(hours=summertimeOffset)
+        return (datetime.datetime.now()+dstOffset).strftime("%A %d. %B %Y")
 
 
 class Routine:
